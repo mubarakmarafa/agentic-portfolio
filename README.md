@@ -4,8 +4,28 @@ A minimal, expandable one-page portfolio for Moby / Mubarak Marafa. Built with V
 
 ## Live site
 
-- **Production:** _(add Vercel URL after deploy)_
-- **Repository:** _(add GitHub URL after push)_
+- **Production:** _(run `./scripts/deploy-vercel.sh` after `vercel login`)_
+- **Repository:** _(run `./scripts/publish-github.sh` after `gh auth login`)_
+
+## Publish (first time)
+
+Git is initialized locally with an initial commit on `main`.
+
+1. **GitHub** — authenticate, then publish:
+
+   ```bash
+   gh auth login
+   ./scripts/publish-github.sh
+   ```
+
+2. **Vercel** — import the GitHub repo at [vercel.com/new](https://vercel.com/new) for auto-deploy on push, **or** deploy from CLI:
+
+   ```bash
+   vercel login
+   ./scripts/deploy-vercel.sh
+   ```
+
+   Vercel settings: build `npm run build`, output `dist`.
 
 ## Features
 
