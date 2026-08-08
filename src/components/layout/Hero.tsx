@@ -1,4 +1,5 @@
 import { content } from "../../data/content";
+import { PinWall } from "./PinWall";
 import styles from "./Hero.module.css";
 
 export function Hero() {
@@ -15,18 +16,15 @@ export function Hero() {
           <strong>hi</strong>
           <span aria-hidden="true">👋🏾</span>
           <span className={styles.outline}>, i’m mubarak. but you can </span>
-          <strong>call me moby</strong>
-          <i className={styles.dot} aria-hidden="true" />
+          <span className={styles.mobyMark}>
+            <strong>call me moby</strong>
+            <i className={styles.dot} aria-hidden="true" />
+          </span>
         </h1>
       </div>
 
       <div className={styles.story}>
-        <img
-          className={styles.crystal}
-          src="/assets/crystal-badge.png"
-          alt=""
-          aria-hidden="true"
-        />
+        <PinWall />
 
         <div className={styles.copy}>
           <p>
@@ -41,13 +39,6 @@ export function Hero() {
           <p>{content.about}</p>
         </div>
       </div>
-
-      <img
-        className={styles.flame}
-        src="/assets/flame-badge.png"
-        alt=""
-        aria-hidden="true"
-      />
     </header>
   );
 }

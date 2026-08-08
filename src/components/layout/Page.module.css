@@ -1,13 +1,15 @@
 .page {
   position: relative;
   min-height: 100dvh;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
   padding: clamp(3rem, 10.4vh, 4.75rem) 1.75rem 4rem;
 }
 
 .main {
   width: 100%;
-  min-height: calc(100dvh - 8.75rem);
+  flex: 1 0 auto;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
