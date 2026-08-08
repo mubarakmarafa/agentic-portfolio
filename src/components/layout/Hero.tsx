@@ -1,30 +1,53 @@
 import { content } from "../../data/content";
-import { useUnlockStore } from "../../store/unlockStore";
 import styles from "./Hero.module.css";
 
-type HeroProps = {
-  zoneRef: React.RefObject<HTMLElement | null>;
-};
-
-export function Hero({ zoneRef }: HeroProps) {
-  const hasGlow = useUnlockStore((state) => state.hasEffect("hero-glow"));
-
+export function Hero() {
   return (
-    <header
-      ref={zoneRef}
-      className={`${styles.hero} ${hasGlow ? styles.glow : ""}`}
-      data-secret-zone="hero"
-    >
-      <h1 className={styles.title}>
-        {content.name} <span className={styles.alias}>/ {content.alias}</span>
-      </h1>
-      <p className={styles.role}>{content.role}</p>
+    <header className={styles.hero}>
+      <div className={styles.intro}>
+        <img
+          className={styles.avatar}
+          src="/assets/moby-avatar.png"
+          alt="Moby smiling"
+        />
 
-      {content.paragraphs.map((paragraph) => (
-        <p key={paragraph.slice(0, 24)} className={styles.paragraph}>
-          {paragraph}
-        </p>
-      ))}
+        <h1 className={styles.title}>
+          <strong>hi</strong>
+          <span aria-hidden="true">👋🏾</span>
+          <span className={styles.outline}>, i’m mubarak. but you can </span>
+          <strong>call me moby</strong>
+          <i className={styles.dot} aria-hidden="true" />
+        </h1>
+      </div>
+
+      <div className={styles.story}>
+        <img
+          className={styles.crystal}
+          src="/assets/crystal-badge.png"
+          alt=""
+          aria-hidden="true"
+        />
+
+        <div className={styles.copy}>
+          <p>
+            i design+build products that <strong>feel inevitable</strong>
+          </p>
+          <p>
+            ... what does that even mean? 😂... well, i take ambitious and
+            ambiguous problems and design visions of the future (sometimes i
+            build them). i see connections no one else sees, connect them and
+            lead teams to build that future.
+          </p>
+          <p>{content.about}</p>
+        </div>
+      </div>
+
+      <img
+        className={styles.flame}
+        src="/assets/flame-badge.png"
+        alt=""
+        aria-hidden="true"
+      />
     </header>
   );
 }
