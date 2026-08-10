@@ -28,7 +28,7 @@
   position: relative;
   max-width: 31.625rem;
   color: var(--text);
-  font-family: var(--font-display);
+  font-family: var(--font-display-outline);
   font-size: 2.625rem;
   font-weight: 400;
   line-height: 1.5;
@@ -36,13 +36,12 @@
 }
 
 .title strong {
+  font-family: var(--font-display);
   font-weight: 900;
 }
 
 .outline {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--text);
-  paint-order: stroke fill;
+  font-family: var(--font-display-outline);
 }
 
 .mobyMark {

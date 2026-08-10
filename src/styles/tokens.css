@@ -3,6 +3,7 @@
   --bg: #151515;
   --text: #f5f5f5;
   --accent: #ffd778;
-  --font-sans: "Trebuchet MS", "Avenir Next", Avenir, system-ui, sans-serif;
-  --font-display: "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --font-sans: "Montreux Classic", "Avenir Next", Avenir, system-ui, sans-serif;
+  --font-display: "Montreux Jazz Soft", "Arial Rounded MT Bold", sans-serif;
+  --font-display-outline: "Montreux Jazz Soft Outline", var(--font-display);
 }

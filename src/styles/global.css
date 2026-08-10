@@ -1,5 +1,37 @@
 @import "./tokens.css";
 
+@font-face {
+  font-family: "Montreux Jazz Soft";
+  src: url("/fonts/MontreuxJS-Blk.otf") format("opentype");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montreux Jazz Soft Outline";
+  src: url("/fonts/MontreuxJS-Oln.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montreux Classic";
+  src: url("/fonts/MontreuxC-Rg.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montreux Classic";
+  src: url("/fonts/MontreuxC-BdIt.otf") format("opentype");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
