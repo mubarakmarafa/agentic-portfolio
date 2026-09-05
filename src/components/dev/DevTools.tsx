@@ -84,7 +84,7 @@ export function DevTools() {
       <DialRoot
         defaultOpen
         position="bottom-right"
-        productionEnabled={false}
+        productionEnabled
         theme="dark"
       />
     </>
