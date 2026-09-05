@@ -77,7 +77,7 @@ function BackgroundGrainDials() {
   return null;
 }
 
-export function DevTools() {
+export default function DevTools() {
   return (
     <>
       <BackgroundGrainDials />

@@ -1,12 +1,19 @@
-import { StrictMode } from "react";
+import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { DevTools } from "./components/dev/DevTools";
 import "./styles/global.css";
+
+const DevTools = import.meta.env.DEV
+  ? lazy(() => import("./components/dev/DevTools"))
+  : null;
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-    {import.meta.env.DEV ? <DevTools /> : null}
+    {DevTools ? (
+      <Suspense fallback={null}>
+        <DevTools />
+      </Suspense>
+    ) : null}
   </StrictMode>,
 );
