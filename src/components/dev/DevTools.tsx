@@ -51,27 +51,28 @@ function BackgroundGrainDials() {
       persist: true,
     },
   );
+  const { contrast, frequency, octaves, opacity, seed, tileSize } = grain;
 
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty(
       "--background-grain-image",
-      `url("${createNoiseDataUrl(grain)}")`,
+      `url("${createNoiseDataUrl({
+        contrast,
+        frequency,
+        octaves,
+        opacity,
+        seed,
+        tileSize,
+      })}")`,
     );
-    root.style.setProperty("--background-grain-size", `${grain.tileSize}px`);
+    root.style.setProperty("--background-grain-size", `${tileSize}px`);
 
     return () => {
       root.style.removeProperty("--background-grain-image");
       root.style.removeProperty("--background-grain-size");
     };
-  }, [
-    grain.contrast,
-    grain.frequency,
-    grain.octaves,
-    grain.opacity,
-    grain.seed,
-    grain.tileSize,
-  ]);
+  }, [contrast, frequency, octaves, opacity, seed, tileSize]);
 
   return null;
 }
