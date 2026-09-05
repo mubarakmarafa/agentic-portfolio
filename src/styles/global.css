@@ -12,6 +12,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  --background-grain-image: url("/noise.svg");
+  --background-grain-size: 180px;
 }
 
 body {
@@ -22,21 +24,10 @@ body {
   letter-spacing: -0.01em;
   color: var(--text);
   background-color: var(--bg);
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgb(255 255 255 / 0.012) 0,
-      rgb(255 255 255 / 0.012) 1px,
-      transparent 1px,
-      transparent 4px
-    ),
-    repeating-linear-gradient(
-      25deg,
-      rgb(0 0 0 / 0.06) 0,
-      rgb(0 0 0 / 0.06) 1px,
-      transparent 1px,
-      transparent 3px
-    );
+  background-image: var(--background-grain-image);
+  background-size: var(--background-grain-size);
+  background-attachment: fixed;
+  background-blend-mode: soft-light;
   min-height: 100dvh;
 }
 
