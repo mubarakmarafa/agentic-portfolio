@@ -1,0 +1,19 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: rgb(21 21 21 / 0.32);
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+}
+
+.scrim[data-active] {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .scrim {
+    display: none;
+  }
+}

@@ -36,6 +36,15 @@
     "contact contact";
 }
 
+/* Hover previews fade the other tiles back so the stage shows through. */
+.bento[data-hover="backdrop-info"] > :not([data-hovered]) {
+  opacity: 0.08;
+}
+
+.bento[data-hover="backdrop-effect"] > :not([data-hovered]) {
+  opacity: 0.55;
+}
+
 /* Tablet: fixed-height rows, the page scrolls instead of squashing. */
 @media (min-width: 640px) {
   .bento {

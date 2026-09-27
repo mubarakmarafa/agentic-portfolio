@@ -24,6 +24,11 @@ export function sameRoute(a: Route, b: Route): boolean {
 type NavState = {
   route: Route;
   hoveredId: TileId | null;
+  /**
+   * Last hovered tile with a stage preview. Outlives the hover so the stage
+   * can fade out with its content still in place.
+   */
+  previewId: TileId | null;
   /** Tile whose page was opened last; it receives the morph and focus on Back. */
   lastOpenedId: TileId | null;
   /** Home scroll offset to restore when a page closes (tablet / mobile). */
@@ -36,6 +41,7 @@ type NavState = {
 export const useNavStore = create<NavState>()((set) => ({
   route: typeof window === "undefined" ? HOME : routeFromPath(window.location.pathname),
   hoveredId: null,
+  previewId: null,
   lastOpenedId: null,
   homeScrollY: 0,
 
@@ -43,6 +49,7 @@ export const useNavStore = create<NavState>()((set) => ({
     set((state) => ({
       route,
       hoveredId: null,
+      previewId: null,
       lastOpenedId:
         route.name === "tile"
           ? route.tileId
@@ -52,7 +59,11 @@ export const useNavStore = create<NavState>()((set) => ({
     })),
 
   setHovered: (id) =>
-    set((state) => (state.hoveredId === id ? state : { hoveredId: id })),
+    set((state) => {
+      if (state.hoveredId === id) return state;
+      const hasStage = id !== null && getTile(id).hover !== "lift";
+      return { hoveredId: id, previewId: hasStage ? id : state.previewId };
+    }),
 
   saveHomeScroll: (y) => set({ homeScrollY: y }),
 }));

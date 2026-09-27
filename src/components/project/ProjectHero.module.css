@@ -1,0 +1,14 @@
+.hero {
+  position: relative;
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  view-transition-class: hero;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

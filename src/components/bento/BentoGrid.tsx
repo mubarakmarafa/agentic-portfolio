@@ -1,6 +1,7 @@
 import type { MouseEvent } from "react";
 import type { Tile } from "../../data/tiles";
-import { tiles } from "../../data/tiles";
+import { getTile, tiles } from "../../data/tiles";
+import { useHoverIntent } from "../../hooks/useHoverIntent";
 import { openTile } from "../../lib/viewTransition";
 import { useNavStore } from "../../store/navStore";
 import { BentoSurface } from "./BentoSurface";
@@ -29,16 +30,21 @@ function onOpen(tile: Tile, event: MouseEvent<HTMLAnchorElement>) {
 }
 
 export function BentoGrid() {
+  const hoveredId = useNavStore((state) => state.hoveredId);
   const lastOpenedId = useNavStore((state) => state.lastOpenedId);
+  const hoverHandlers = useHoverIntent();
+  const hoverVariant = hoveredId ? getTile(hoveredId).hover : undefined;
 
   return (
-    <nav className={styles.bento} aria-label="Portfolio">
+    <nav className={styles.bento} aria-label="Portfolio" data-hover={hoverVariant}>
       {tiles.map((tile) => (
         <BentoSurface
           key={tile.id}
           tile={tile}
+          hovered={tile.id === hoveredId}
           active={tile.id === lastOpenedId}
           onOpen={onOpen}
+          {...hoverHandlers(tile.id)}
         >
           <TileContent tile={tile} />
         </BentoSurface>

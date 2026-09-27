@@ -24,10 +24,10 @@ export type TileDestination =
   | { kind: "page"; route: string; page: PageKind }
   | { kind: "external"; href: string };
 
-export type StagePlacement = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+/** Half of the screen the stage preview uses; pick the half the tile isn't in. */
+export type StagePlacement = "top" | "bottom";
 
 export type TilePreview = {
-  /** Where the info block sits on the stage, away from the tile itself. */
   placement?: StagePlacement;
   effect?: "glow";
 };
@@ -87,7 +87,7 @@ export const tiles: Tile[] = [
     label: "Project",
     content: "project",
     hover: "backdrop-info",
-    preview: { placement: "bottom-right" },
+    preview: { placement: "bottom" },
     projectSlug: "project-one",
     destination: { kind: "page", route: "/work/project-one", page: "case-study" },
   },
@@ -138,7 +138,7 @@ export const tiles: Tile[] = [
     label: "Project",
     content: "project",
     hover: "backdrop-info",
-    preview: { placement: "top-right" },
+    preview: { placement: "top" },
     projectSlug: "project-two",
     destination: { kind: "page", route: "/work/project-two", page: "case-study" },
   },
