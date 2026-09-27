@@ -1,0 +1,48 @@
+.effect {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  animation: effect-in 400ms var(--ease-out) both;
+}
+
+.blob {
+  position: absolute;
+  width: 55vmax;
+  height: 55vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--mellow) 0%, transparent 65%);
+  filter: blur(24px);
+  animation: drift 9s var(--ease-in-out) infinite alternate;
+}
+
+.blob:nth-child(1) {
+  top: -20vmax;
+  left: -10vmax;
+}
+
+.blob:nth-child(2) {
+  right: -15vmax;
+  top: 10vmax;
+  opacity: 0.7;
+  animation-duration: 11s;
+  animation-direction: alternate-reverse;
+}
+
+.blob:nth-child(3) {
+  bottom: -25vmax;
+  left: 30vmax;
+  opacity: 0.55;
+  animation-duration: 13s;
+}
+
+@keyframes drift {
+  to {
+    transform: translate(12vmax, 8vmax) scale(1.15);
+  }
+}
+
+@keyframes effect-in {
+  from {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,71 @@
+.surface {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  overflow: clip;
+  container-type: size;
+  background-color: var(--white);
+  border-radius: var(--radius-sm);
+  color: var(--black);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  view-transition-class: tile;
+  transition:
+    opacity 260ms var(--ease-out),
+    transform 260ms var(--ease-out),
+    box-shadow 260ms var(--ease-out),
+    background-color 260ms var(--ease-out);
+}
+
+.surface[data-active] {
+  view-transition-class: tile active;
+}
+
+.surface:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: -4px;
+}
+
+.surface[data-hovered] {
+  z-index: 2;
+}
+
+.surface[data-hovered][data-hover-variant="lift"] {
+  transform: translateY(-4px) scale(1.015);
+  background-color: color-mix(in srgb, var(--mellow) 22%, var(--white));
+  box-shadow:
+    0 0 0 2px var(--mellow),
+    0 24px 48px -16px rgb(21 21 21 / 0.45);
+}
+
+.surface[data-external]:active {
+  transform: scale(0.98);
+  transition-duration: 90ms;
+}
+
+.outbound {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.surface[data-hovered] .outbound,
+.surface:focus-visible .outbound {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .surface[data-hovered][data-hover-variant="lift"],
+  .surface[data-external]:active {
+    transform: none;
+  }
+}

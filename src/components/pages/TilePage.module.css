@@ -1,0 +1,82 @@
+.page {
+  position: fixed;
+  inset: var(--bento-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  color: var(--black);
+  view-transition-class: tile active;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 8px 0 16px;
+  border-radius: 999px;
+  background-color: var(--super-light-grey);
+  font-size: 14px;
+  line-height: 1;
+  transition: background-color 160ms var(--ease-out);
+}
+
+.back:hover {
+  background-color: var(--light-grey);
+}
+
+.back:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 2px;
+}
+
+.kbd {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: var(--white);
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--dark-grey);
+}
+
+@media (hover: none) {
+  .back {
+    padding-right: 16px;
+  }
+
+  .kbd {
+    display: none;
+  }
+}
+
+.eyebrow {
+  font-size: 12px;
+  color: var(--dark-grey);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  outline: none;
+}

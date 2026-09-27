@@ -1,0 +1,86 @@
+/*
+ * One flat grid; each breakpoint only swaps the area map. The grid owns the
+ * large outer radius and clips the tiles, so corners stay right whichever
+ * tiles land there.
+ */
+.bento {
+  position: relative;
+  display: grid;
+  gap: var(--bento-gap);
+  border-radius: var(--radius-lg);
+  overflow: clip;
+
+  /* Mobile: Intro first, small tiles paired up. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 104px;
+  grid-template-areas:
+    "intro   intro"
+    "intro   intro"
+    "proj1   proj1"
+    "proj1   proj1"
+    "cv      social"
+    "cv      quote"
+    "exp1    exp1"
+    "exp1    exp1"
+    "exp2    map"
+    "exp2    map"
+    "video   video"
+    "video   video"
+    "about   about"
+    "about   about"
+    "proj2   proj2"
+    "proj2   proj2"
+    "photo   photo"
+    "photo   photo"
+    "contact contact"
+    "contact contact";
+}
+
+/* Hover previews fade the other tiles back so the stage shows through. */
+.bento[data-hover="backdrop-info"] > :not([data-hovered]) {
+  opacity: 0.08;
+}
+
+.bento[data-hover="backdrop-effect"] > :not([data-hovered]) {
+  opacity: 0.55;
+}
+
+/* Tablet: fixed-height rows, the page scrolls instead of squashing. */
+@media (min-width: 640px) {
+  .bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 112px;
+    grid-template-areas:
+      "intro   intro   proj1   proj1"
+      "intro   intro   proj1   proj1"
+      "exp1    exp1    proj1   proj1"
+      "exp1    exp1    video   video"
+      "exp2    map     video   video"
+      "exp2    map     cv      about"
+      "social  social  cv      about"
+      "photo   photo   cv      about"
+      "photo   photo   proj2   proj2"
+      "photo   photo   proj2   proj2"
+      "quote   quote   proj2   proj2"
+      "contact contact contact contact"
+      "contact contact contact contact";
+  }
+}
+
+/* Desktop: the Figma 8 × 8 board, sized to the viewport height. */
+@media (min-width: 1024px) {
+  .bento {
+    height: max(560px, calc(100dvh - 2 * var(--bento-pad)));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: repeat(8, minmax(0, 1fr));
+    grid-template-areas:
+      "exp1   exp1   exp1   proj1  proj1  video   video   video"
+      "exp1   exp1   exp1   proj1  proj1  video   video   video"
+      "exp2   map    map    proj1  proj1  cv      about   about"
+      "exp2   map    map    intro  intro  cv      about   about"
+      "social social social intro  intro  cv      about   about"
+      "photo  photo  proj2  proj2  proj2  quote   quote   quote"
+      "photo  photo  proj2  proj2  proj2  contact contact contact"
+      "photo  photo  proj2  proj2  proj2  contact contact contact";
+  }
+}

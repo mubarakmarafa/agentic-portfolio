@@ -1,0 +1,50 @@
+.frame {
+  position: absolute;
+  inset: calc(50% + var(--bento-gap) / 2) var(--bento-pad) var(--bento-pad);
+  animation: info-in 320ms var(--ease-out) both;
+}
+
+.frame[data-placement="top"] {
+  inset: var(--bento-pad) var(--bento-pad) calc(50% + var(--bento-gap) / 2);
+}
+
+.hero {
+  width: 100%;
+  height: 100%;
+}
+
+.text {
+  position: absolute;
+  left: 32px;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 480px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  color: var(--dark-grey);
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--black);
+}
+
+.summary {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--dark-grey);
+}
+
+@keyframes info-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
