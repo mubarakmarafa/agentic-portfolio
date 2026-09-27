@@ -33,6 +33,12 @@ type NavState = {
   lastOpenedId: TileId | null;
   /** Home scroll offset to restore when a page closes (tablet / mobile). */
   homeScrollY: number;
+  /**
+   * Set when the grid comes back, so a pointer resting on (or focus landing
+   * on) the returned tile doesn't pop its preview mid-transition. Cleared by
+   * the next pointer move or key press.
+   */
+  hoverLocked: boolean;
   go: (route: Route) => void;
   setHovered: (id: TileId | null) => void;
   saveHomeScroll: (y: number) => void;
@@ -44,12 +50,14 @@ export const useNavStore = create<NavState>()((set) => ({
   previewId: null,
   lastOpenedId: null,
   homeScrollY: 0,
+  hoverLocked: false,
 
   go: (route) =>
     set((state) => ({
       route,
       hoveredId: null,
       previewId: null,
+      hoverLocked: route.name === "home",
       lastOpenedId:
         route.name === "tile"
           ? route.tileId

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import type { FocusEvent, PointerEvent } from "react";
+import type { FocusEvent, PointerEvent as ReactPointerEvent } from "react";
 import type { TileId } from "../data/tiles";
 import { useNavStore } from "../store/navStore";
 
@@ -13,40 +13,55 @@ export function useHoverIntent() {
   const enterTimer = useRef<number | undefined>(undefined);
   const leaveTimer = useRef<number | undefined>(undefined);
 
-  useEffect(
-    () => () => {
-      window.clearTimeout(enterTimer.current);
-      window.clearTimeout(leaveTimer.current);
-    },
-    [],
-  );
-
-  return useCallback(
+  const enter = useCallback(
     (id: TileId) => {
-      const enter = () => {
-        window.clearTimeout(leaveTimer.current);
-        window.clearTimeout(enterTimer.current);
-        enterTimer.current = window.setTimeout(() => setHovered(id), ENTER_DELAY_MS);
-      };
-      const leave = () => {
-        window.clearTimeout(enterTimer.current);
-        window.clearTimeout(leaveTimer.current);
-        leaveTimer.current = window.setTimeout(() => setHovered(null), LEAVE_DELAY_MS);
-      };
-
-      return {
-        onPointerEnter: (event: PointerEvent<HTMLAnchorElement>) => {
-          if (event.pointerType !== "touch") enter();
-        },
-        onPointerLeave: (event: PointerEvent<HTMLAnchorElement>) => {
-          if (event.pointerType !== "touch") leave();
-        },
-        onFocus: (event: FocusEvent<HTMLAnchorElement>) => {
-          if (event.currentTarget.matches(":focus-visible")) enter();
-        },
-        onBlur: leave,
-      };
+      if (useNavStore.getState().hoverLocked) return;
+      window.clearTimeout(leaveTimer.current);
+      window.clearTimeout(enterTimer.current);
+      enterTimer.current = window.setTimeout(() => setHovered(id), ENTER_DELAY_MS);
     },
     [setHovered],
+  );
+
+  const leave = useCallback(() => {
+    window.clearTimeout(enterTimer.current);
+    window.clearTimeout(leaveTimer.current);
+    leaveTimer.current = window.setTimeout(() => setHovered(null), LEAVE_DELAY_MS);
+  }, [setHovered]);
+
+  useEffect(() => {
+    const unlock = (event: Event) => {
+      if (!useNavStore.getState().hoverLocked) return;
+      useNavStore.setState({ hoverLocked: false });
+      if (event instanceof PointerEvent && event.pointerType !== "touch") {
+        const tile = (event.target as Element | null)?.closest<HTMLElement>("[data-tile-id]");
+        if (tile) enter(tile.dataset.tileId as TileId);
+      }
+    };
+    window.addEventListener("pointermove", unlock);
+    window.addEventListener("keydown", unlock);
+
+    return () => {
+      window.removeEventListener("pointermove", unlock);
+      window.removeEventListener("keydown", unlock);
+      window.clearTimeout(enterTimer.current);
+      window.clearTimeout(leaveTimer.current);
+    };
+  }, [enter]);
+
+  return useCallback(
+    (id: TileId) => ({
+      onPointerEnter: (event: ReactPointerEvent<HTMLAnchorElement>) => {
+        if (event.pointerType !== "touch") enter(id);
+      },
+      onPointerLeave: (event: ReactPointerEvent<HTMLAnchorElement>) => {
+        if (event.pointerType !== "touch") leave();
+      },
+      onFocus: (event: FocusEvent<HTMLAnchorElement>) => {
+        if (event.currentTarget.matches(":focus-visible")) enter(id);
+      },
+      onBlur: leave,
+    }),
+    [enter, leave],
   );
 }
