@@ -1,0 +1,77 @@
+/*
+ * Positions come from the Figma tile (332 × 228). The exported SVGs carry
+ * sub-pixel offsets from their text boxes, hence the fractional insets.
+ * Narrow or short tiles scale every block from its own anchor corner.
+ */
+.intro {
+  --s: 1;
+  position: absolute;
+  inset: 0;
+}
+
+@container (max-width: 310px) or (max-height: 205px) {
+  .intro {
+    --s: 0.85;
+  }
+}
+
+@container (max-width: 265px) or (max-height: 175px) {
+  .intro {
+    --s: 0.72;
+  }
+}
+
+.wordmark,
+.memoji,
+.subtitle,
+.flags {
+  position: absolute;
+  transform: scale(var(--s));
+}
+
+.wordmark {
+  top: calc(31.472px * var(--s));
+  left: calc(32px * var(--s));
+  transform-origin: top left;
+}
+
+.memoji {
+  top: calc(12px * var(--s));
+  right: calc(13px * var(--s));
+  width: 92px;
+  height: 116px;
+  transform-origin: top right;
+  filter: drop-shadow(0 8px 16px rgb(0 0 0 / 0.16));
+}
+
+.memojiCrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.memojiCrop img {
+  position: absolute;
+  top: -16.25%;
+  left: -26.56%;
+  width: 153.13%;
+  height: 122.5%;
+  max-width: none;
+}
+
+.subtitle {
+  bottom: calc(30.712px * var(--s));
+  left: calc(32.832px * var(--s));
+  transform-origin: bottom left;
+}
+
+.flags {
+  right: calc(32px * var(--s));
+  bottom: calc(32px * var(--s));
+  font-family: var(--font-emoji);
+  font-size: 24px;
+  line-height: 1.7;
+  white-space: nowrap;
+  text-box: trim-both cap alphabetic;
+  transform-origin: bottom right;
+}
