@@ -11,9 +11,3 @@
 .scrim[data-active] {
   opacity: 1;
 }
-
-@media (hover: none) {
-  .scrim {
-    display: none;
-  }
-}

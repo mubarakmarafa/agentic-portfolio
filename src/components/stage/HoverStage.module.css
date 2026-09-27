@@ -11,9 +11,3 @@
 .stage[data-active] {
   opacity: 1;
 }
-
-@media (hover: none) {
-  .stage {
-    display: none;
-  }
-}

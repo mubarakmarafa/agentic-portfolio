@@ -8,6 +8,11 @@ const ENTER_DELAY_MS = 80;
 /** Longer than the enter delay, so crossing a gap swaps previews without passing through idle. */
 const LEAVE_DELAY_MS = 140;
 
+/**
+ * Touch never previews: pointer handlers ignore `touch`, and a tap doesn't
+ * match :focus-visible. This is checked per event rather than with
+ * `@media (hover: none)`, which some desktops misreport.
+ */
 export function useHoverIntent() {
   const setHovered = useNavStore((state) => state.setHovered);
   const enterTimer = useRef<number | undefined>(undefined);
