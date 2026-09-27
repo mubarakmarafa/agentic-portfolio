@@ -1,5 +1,8 @@
+import type { MouseEvent } from "react";
 import type { Tile } from "../../data/tiles";
 import { tiles } from "../../data/tiles";
+import { openTile } from "../../lib/viewTransition";
+import { useNavStore } from "../../store/navStore";
 import { BentoSurface } from "./BentoSurface";
 import styles from "./BentoGrid.module.css";
 import { IntroTile } from "./tiles/IntroTile";
@@ -17,11 +20,26 @@ function TileContent({ tile }: { tile: Tile }) {
   }
 }
 
+function onOpen(tile: Tile, event: MouseEvent<HTMLAnchorElement>) {
+  if (tile.destination.kind === "external") return;
+  if (event.defaultPrevented || event.button !== 0) return;
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  openTile(tile);
+}
+
 export function BentoGrid() {
+  const lastOpenedId = useNavStore((state) => state.lastOpenedId);
+
   return (
     <nav className={styles.bento} aria-label="Portfolio">
       {tiles.map((tile) => (
-        <BentoSurface key={tile.id} tile={tile}>
+        <BentoSurface
+          key={tile.id}
+          tile={tile}
+          active={tile.id === lastOpenedId}
+          onOpen={onOpen}
+        >
           <TileContent tile={tile} />
         </BentoSurface>
       ))}
