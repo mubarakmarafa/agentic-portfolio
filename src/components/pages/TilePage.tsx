@@ -23,6 +23,7 @@ export function TilePage({ tile, title, hero, children }: Props) {
     <article
       className={styles.page}
       style={{ viewTransitionName: `tile-${tile.id}` }}
+      data-vt-page
       aria-labelledby="page-title"
     >
       <header className={styles.header}>

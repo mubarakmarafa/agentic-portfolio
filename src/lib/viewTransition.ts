@@ -104,7 +104,11 @@ export function navigate(to: Route, type: NavType, historyMode: HistoryMode = "p
     return;
   }
 
-  if (from.name === "home" && anchorId) writeStagger(anchorId);
+  if (from.name === "home" && anchorId) {
+    // Only the clicked tile may carry the "active" class in the old snapshot.
+    flushSync(() => useNavStore.setState({ lastOpenedId: anchorId }));
+    writeStagger(anchorId);
+  }
 
   const root = document.documentElement;
   root.dataset.navDir = type;

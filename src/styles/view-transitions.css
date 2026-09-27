@@ -1,0 +1,141 @@
+/*
+ * Tile ↔ page transitions (see src/lib/viewTransition.ts).
+ *
+ * Naming contract:
+ *   - every tile:            view-transition-name: tile-<id>, class "tile"
+ *   - the page root:         same tile-<id> name, class "tile active"
+ *   - the tile being opened
+ *     or returned to:        class "tile active"
+ *   - backdrop-info heroes:  hero-<id>, class "hero" (stage preview and page hero)
+ *
+ * html[data-nav-dir] is "open" or "back" for the duration of a transition.
+ * Hover never uses View Transitions; it is plain CSS on the live DOM.
+ */
+
+::view-transition-group(*) {
+  animation-duration: var(--vt-duration);
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: calc(var(--vt-duration) * 0.5);
+}
+
+/* The tile that becomes the page (and the page that shrinks back into it). */
+::view-transition-group(.active) {
+  z-index: 1;
+}
+
+/*
+ * Snapshots are flat images, so the corner radius doesn't morph on its own.
+ * A solid surface on the image pair, clipped with an animated inset radius,
+ * carries the shape; the tile and page contents cross-fade on top, pinned
+ * top-left so neither stretches.
+ */
+::view-transition-image-pair(.active) {
+  background-color: var(--white);
+  animation: vt-radius-open var(--vt-duration) var(--ease-out) both;
+}
+
+html[data-nav-dir="back"]::view-transition-image-pair(.active) {
+  animation-name: vt-radius-back;
+}
+
+::view-transition-old(.active),
+::view-transition-new(.active) {
+  width: 100%;
+  height: 100%;
+  object-fit: none;
+  object-position: left top;
+}
+
+::view-transition-old(.active) {
+  animation: vt-fade-out calc(var(--vt-duration) * 0.45) var(--ease-out) both;
+}
+
+::view-transition-new(.active) {
+  animation: vt-fade-in calc(var(--vt-duration) * 0.6) var(--ease-out)
+    calc(var(--vt-duration) * 0.25) both;
+}
+
+/* Every other tile: leaves on open, returns on back. --vt-delay staggers by distance. */
+::view-transition-old(.tile):only-child {
+  animation: vt-tile-exit calc(var(--vt-duration) * 0.55) var(--ease-out)
+    var(--vt-delay, 0ms) both;
+}
+
+::view-transition-new(.tile):only-child {
+  animation: vt-tile-enter calc(var(--vt-duration) * 0.6) var(--ease-out)
+    calc(var(--vt-duration) * 0.3 + var(--vt-delay, 0ms)) both;
+}
+
+/* Hover-preview hero settles into the page hero instead of reloading. */
+::view-transition-group(.hero) {
+  z-index: 2;
+}
+
+::view-transition-old(.hero),
+::view-transition-new(.hero) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes vt-radius-open {
+  from {
+    clip-path: inset(0 round var(--radius-sm));
+  }
+  to {
+    clip-path: inset(0 round var(--radius-lg));
+  }
+}
+
+@keyframes vt-radius-back {
+  from {
+    clip-path: inset(0 round var(--radius-lg));
+  }
+  to {
+    clip-path: inset(0 round var(--radius-sm));
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-tile-exit {
+  to {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes vt-tile-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+/* Reduced motion: no morph, just a short cross-fade of the whole view. */
+@media (prefers-reduced-motion: reduce) {
+  [data-tile-id],
+  [data-vt-page],
+  [data-vt-hero] {
+    view-transition-name: none !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 180ms;
+  }
+}
