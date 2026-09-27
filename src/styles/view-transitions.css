@@ -50,13 +50,26 @@ html[data-nav-dir="back"]::view-transition-image-pair(.active) {
   object-position: left top;
 }
 
+/*
+ * Whichever snapshot is the small tile only shows while the surface is
+ * close to tile size: early on open, late on back.
+ */
 ::view-transition-old(.active) {
-  animation: vt-fade-out calc(var(--vt-duration) * 0.45) var(--ease-out) both;
+  animation: vt-fade-out calc(var(--vt-duration) * 0.3) var(--ease-out) both;
 }
 
 ::view-transition-new(.active) {
-  animation: vt-fade-in calc(var(--vt-duration) * 0.6) var(--ease-out)
-    calc(var(--vt-duration) * 0.25) both;
+  animation: vt-fade-in calc(var(--vt-duration) * 0.55) var(--ease-out)
+    calc(var(--vt-duration) * 0.2) both;
+}
+
+html[data-nav-dir="back"]::view-transition-old(.active) {
+  animation-duration: calc(var(--vt-duration) * 0.4);
+}
+
+html[data-nav-dir="back"]::view-transition-new(.active) {
+  animation-duration: calc(var(--vt-duration) * 0.4);
+  animation-delay: calc(var(--vt-duration) * 0.55);
 }
 
 /* Every other tile: leaves on open, returns on back. --vt-delay staggers by distance. */
@@ -80,6 +93,11 @@ html[data-nav-dir="back"]::view-transition-image-pair(.active) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* On back the page hero has no counterpart on the grid; get it out of the way. */
+::view-transition-old(.hero):only-child {
+  animation: vt-fade-out calc(var(--vt-duration) * 0.3) var(--ease-out) both;
 }
 
 @keyframes vt-radius-open {
